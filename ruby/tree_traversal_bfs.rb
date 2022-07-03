@@ -9,7 +9,18 @@ class Node
 end
 
 def level_order_traversal(root)
-  # type your code in here
+  array = []
+  if root.nil?
+    return array
+  end
+  queue = [root]
+  while !queue.empty?
+    first = queue.shift
+    array.push(first.value)
+    queue.push(first.left) if first.left != nil
+    queue.push(first.right) if first.right != nil 
+  end
+  array
 end
 
 if __FILE__ == $PROGRAM_NAME
