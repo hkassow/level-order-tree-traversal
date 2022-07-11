@@ -23,25 +23,46 @@ def level_order_traversal(root)
   array
 end
 
-if __FILE__ == $PROGRAM_NAME
-  root = Node.new(1, Node.new(2), Node.new(3));
-
-  puts "Expecting: [[1], [2, 3]]"
-  print level_order_traversal(root)
-
-  puts
-  puts
-
-  root = Node.new(10, Node.new(20, Node.new(9), Node.new(22)), Node.new(30))
-
-  puts "Expecting: [[10], [20, 30], [9, 22]]"
-  print level_order_traversal(root)
-
-  puts 
-  puts
-
-  # Don't forget to add your own!
+#returns array of tree values in order
+def tree_traversal_inorder(root)
+  #add values to array from a binary search tree inorder
+  array = []  
+  return array if root.nil?
+  
+  stack = [root]
+  while !stack.empty?
+    #top  => stack[-1]
+    if ! stack[-1].left.nil? 
+      #cut off left branch path
+      #add left branch to top of stack
+      #since left branches are smaller dont add any values to array
+      left_sub = stack[-1].left
+      stack[-1].left = nil
+      stack.push(left_sub)
+    else  
+      #no left branch => smallest value now
+      #remove it from stack
+      #add it to array 
+      popped = stack.pop
+      array.push popped.value
+      stack.push popped.right if ! popped.right.nil?
+    end
+  end
+  array
 end
 
-# Please add your pseudocode to this file
-# And a written explanation of your solution
+#searching a ordered bsc with comparable values
+def find_target(root, target)
+  if root.nil? 
+    return nil
+  elsif root.value == target 
+    return root
+  elsif (root.value < target) & (!root.right.nil?)
+    return find_target(root.right, target)
+  elsif (root.value > target) & (!root.left.nil?)
+    return find_target(root.left, target)
+  else
+    return nil
+  end
+end
+
